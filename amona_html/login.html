@@ -1,158 +1,96 @@
-<!Doctype html>
-<html>
+
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="Anil z" name="author">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- SITE TITLE -->
 <title>Login</title>
-<link href="C:/Users/91935/Desktop/property_management/static/css/bootstrap.css" rel="stylesheet" />
-  <script src="C:/Users/91935/Desktop/property_management/static/js/jquery-1.12.4.min.js"></script>
-  <script src="C:/Users/91935/Desktop/property_management/static/js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  <div class="page-header">
-        
-        <div class="container">
-            <div class="col-md-4 content-center">
-                <div class="card card-login card-plain">
-                    <form class="form"  id="loginForm" method="POST" action="property_details.html">
-                        <div class="header header-primary text-center">
-                            User Login
-                        </div><br>
-                        <div class="content">
-                            <div class="input-group form-group-no-border input-lg">
-                                <span class="input-group-addon">
-                                    <i class="now-ui-icons users_circle-08"></i>
-                                </span>
-                                <input type="text" id="username" class="form-control" placeholder="Username" name="email" required>
-                            </div>
-                            <div class="input-group form-group-no-border input-lg">
-                                <span class="input-group-addon">
-                                    <i class="now-ui-icons ui-1_lock-circle-open"></i>
-                                </span>
-                                <input type="password" id="password" placeholder="Password" class="form-control" name="password" required />
-                            </div>
+<section class="login_register_wrap">
+	<div class="container">
+    	<div class="row justify-content-center">
+        	<div class="col-lg-8 col-md-8 col-sm-12 text-center">
+            	<div class="lr_form text-center">
+                    <h2 style="color:#6f6a6a;font-weight:800;">Login</h2>
+                    <hr>
+                    <form method="post" action="dashboard.html" id="loginForm" class="login" style="padding-top:27px;padding-bottom:27px;">
+                        
+                        <div class="form-group">
+                            <input type="email" required="" class="form-control" name="email" placeholder="Enter The Email *" >
                         </div>
-                        <div class="footer text-center">
-                            <button type="submit" class="bbtn btn-primary btn-round btn-lg btn-block"  id="buttonSubmit">Login</button>
+                        <div class="form-group">
+                            <input class="form-control" required="" type="password" name="password" Placeholder="Enter The  Password *">
                         </div>
-                        <div class="pull-right">
-                            <h6>
-                                <a href="" class="link">Forgot Password?</a>
-                            </h6>
+                       
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default btn-block" name="login">Log in</button>
+                        </div>
+                        <div class="login_footer">
+                            <a href="#" style="font-size:20px;">Forgot password?</a>
                         </div>
                     </form>
-                    <br><br>
-              </div>
+                </div>
             </div>
-          </div>
-       
-  <script type="text/javascript">
-    /*
-    $.fn.serializeFormJSON = function () {
-            var o = {};
-            var a = this.serializeArray();
-            console.log(a)
-            $.each(a, function () {
-                if (o[this.name]) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    o[this.name].push(this.value || '');
-                } else {
-                    o[this.name] = this.value || '';
-                }
-            });
-            return o;
-        };
-    */
-    
-   $(document).on("submit","#loginForm",function(e)
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+
+
+$(document).on("submit","#loginForm",function(e)
    {
-      e.preventDefault();
+    e.preventDefault();
 
 
-      var username = $('#username').val();
-      var password = $('#password').val();
-      //alert(username)
-      //alert(password)
+    var username = $('#username').val();
+    var password = $('#password').val();
+    alert(username)
+    alert(password)
 
-      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/i;
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/i;
 
-      if (username!="" && password != "") 
-      {
-        if (!regex.test(username)) 
-        {
-          alert("Invalid")
-          $('#username').html("Invalid username");
-        } 
-        else{ 
-          $.ajax({
-            method:"POST",
-            url:'http://localhost:5000/user/login',
-            contentType: 'application/json;charset=UTF-8',
-            data: JSON.stringify({'email': username, 'password': password}),
-            dataType: "json",
-            success: function(data) {
-              alert("Logged in")
-              $('#msg').html("You are logged in");
-            },
-            statusCode:{
-              400:function(){
-                alert("Unsuccessful")
-                $('#msg').html("Bad Request - Invalid credentials");
-              }
-            },
-            error:function(err){
-              console.log(err);
-            }
-          });
-        }
-      }
-      else {
-       $('#msg').html("Invalid username and password");
-      }
-  });
-    /*
-    var op=JSON.stringify($(this).serializeFormJSON())
-    alert(op)
-    var settings = {
-      "url":"http://localhost:5000/user/login",
-      "method":"PUT",
-      "timeout":0,
-      "headers":{"Content-Type":"application/json"},
-      "data":op
-    };*/
-/*
-    $.ajax(settings).done(function(data){
-      console.log(data)
-      if(data==={})
-      {
-        console.log('Empty')
-      }
-      
-      alert('Login success')
-    }).fail(function(jQxhr,textStatus,errorThrown)
+    if (username!="" && password != "") 
     {
-      console.log(textStatus);
-      console.log(errorThrown);
-    });
- }); 
+      if (!regex.test(username)) {
+        $('#msg').html('<span style="color: red;">Invalid username</span>');
+      } else{
+        $.ajax({
+          method:"POST",
+          url:'http://localhost:5000/user/login',
+          contentType: 'application/json;charset=UTF-8',
+          data: JSON.stringify({'email': username, 'password': password}),
+          dataType: "json",
+          success: function(data) {
+            alert("Logged in")
+            $('#msg').html('<span style="color: green;">'You are logged in'</span>');
+          },
+          statusCode:{
+            400:function(){
+              alert("Unsuccessful")
+              $('#msg').html('<span style="color: red;">'Bad Request - Invalid credentials'</span>');
+            }
+          },
+          error:function(err){
+            console.log(err);
+          }
+        });
+      }
+    }
+    else {
+     $('#msg').html('<span style="color: red;">'Invalid username and password'</span>');
+    }
+  });
 
-  /*$.fn.serializeFormJSON = function () {
-            var o = {};
-            var a = this.serializeArray();
-            $.each(a, function () {
-                if (o[this.name]) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    o[this.name].push(this.value || '');
-                } else {
-                    o[this.name] = this.value || '';
-                }
-            });
-            return o;
-        }; */
-
-
-  </script>
+    
+</script>
 </body>
 </html>

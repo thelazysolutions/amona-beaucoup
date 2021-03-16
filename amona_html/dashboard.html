@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="Anil z" name="author">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- SITE TITLE -->
+<title>Login</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/icons.css">
+</head>
+
+<body>
+<section>
+<div class="container-fluid" style="padding-bottom:50px;">
+<div class="row justify-content-center" style="background:#1764b3;box-shadow:0 0 9px rgb(149 150 150 / 69%);padding: 10px 51px; position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;">
+    <div class="col-lg-2 col-md-8 col-sm-12 text-center">
+        <h4 class="text-white" style="font-weight:600;">Property</h4>
+   </div>
+   <div class="col-lg-8 col-md-8 col-sm-12 text-center">
+        <h4 class="text-white" style="font-weight:600;">Users</h4>
+   </div>
+<div class="col-lg-2 col-md-8 col-sm-12 text-center">
+        <button type="submit" class="btn" name="login" style="font-size:14px;background: #F7F7F7;">Log Out</button>
+   </div>
+</div>
+</div>
+	<div class="container-fluid">
+    	<div class="row justify-content-center">
+        <div class="col-lg-2 col-md-8 col-sm-12 text-center">
+<div class="tab">
+  <button class="tablinks"><a href="property_details.html"> <i class="ion-android-settings" style="font-size:35px;color:#fff;"></i> <br>Property Details</a></button>
+  <button class="tablinks"> <a href="image.html"> <i class="ion-android-home" style="font-size:35px;color:#fff;"></i> <br>Images</a></button>
+  <button class="tablinks"><a href="videos.html"> <i class="ion-battery-half" style="font-size:35px;color:#fff;"></i> <br>Videos</a></button>
+  <button class="tablinks"><a href="property_details.html"><i class="ion-camera" style="font-size:35px;color:#fff;"></i> <br>Ammenities</a></button>
+  <button class="tablinks"> <i class="ion-map" style="font-size:35px;color:#fff;"></i> <br>Address Map</button>
+  <button class="tablinks"> <i class="ion-ios-locked" style="font-size:35px;color:#fff;"></i> <br> Neighborhood</button>
+</div>
+
+<!--<div id="London" class="tabcontent">
+  <h3>London</h3>
+  <p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h3>Paris</h3>
+  <p>Paris is the capital of France.</p> 
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <h3>Tokyo</h3>
+  <p>Tokyo is the capital of Japan.</p>
+</div>-->
+</div>
+        	<div class="col-lg-8 col-md-8 col-sm-12 text-center">
+            <table id="customers">
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Add</th>
+    <th>Update</th>
+    <th>Delete</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td></td>
+    <td><a href="property.html"><i class="ion-android-add-circle" style="font-size: 25px;color:#076596;"></i></a></td>
+    <td><a href="#"><i class="ion-edit" style="font-size: 25px;color:#218838;"></i></a></td>
+    <td><a href="#"><i class="ion-android-delete" style="font-size: 25px;color: #dc3545;"></i></a></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+            </div>
+            <div class="col-lg-2 col-md-8 col-sm-12 text-center">
+            <div style="background;#fff;border:1px solid #fff;padding:15px 0px;box-shadow:0 0 9px rgb(149 150 150 / 69%)">
+            <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-8 col-sm-12 text-center">
+                <h5>Add new field</h5>
+                <hr>
+</div>
+        	<div class="col-lg-10 col-md-8 col-sm-12 text-center">
+            <form method="post" action="#" class="text-center">
+                        <div class="form-group">
+                        <div>
+                                    <select style="padding: 8px 42px;border: 1px solid #ccc;">
+                                    	<option value="">Text</option>
+                                    	<option value="1">text1</option>
+                                    	<option value="2">text1</option>
+                                    	<option value="3">text1</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-default btn-block" name="login" style="font-size:14px;">Add New</button>
+                        </div>
+               </form>  
+</div>
+</div>  
+            </div><br>
+            <div style="background;#fff;border:1px solid #fff;padding:15px 0px;box-shadow:0 0 9px rgb(149 150 150 / 69%)">
+            <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-8 col-sm-12 text-center">
+                <h5>Add new category</h5>
+                <hr>
+           </div>
+           <div class="col-lg-10 col-md-8 col-sm-12 text-center">
+           <form method="post" action="#" class="text-center">
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-default btn-block" name="login" style="font-size:14px;">Add a New Category</button>
+                        </div>
+               </form>
+               
+           </div>    
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
