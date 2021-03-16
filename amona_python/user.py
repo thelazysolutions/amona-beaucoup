@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, request
-from db.database import Images, connection, select, delete, insert, update, metadata, and_
+from db.database import User, connection, select, delete, insert, update, metadata, and_
 import inspect
-image = Blueprint('images', __name__, template_folder='templates')
+user = Blueprint('user', __name__, template_folder='templates')
 
 
 def list_to_json(list):
@@ -18,21 +18,52 @@ def list_to_json(list):
     """
     print(inspect.stack()[1][3])
     op = {}
-    for (a, b) in zip((Images.c.keys()), list):
-        op[a] = str(b).replace('image.', '')
+    for (a, b) in zip((User.c.keys()), list):
+        op[a] = str(b).replace('user.', '')
     return op
 
 
-@image.route('/test/', methods=["GET", "POST"])
+@user.route('/test/', methods=["GET", "POST"])
 def viewTableAll():
     print(inspect.stack()[1][3])
     obj = {}
-    for key in Images.c.keys():
+    for key in User.c.keys():
         obj[key] = '1'
     return obj
 
 
-@image.route('/addOne', methods=["PUT"])
+@user.route('/login', methods=["GET", "POST"])
+def login():
+    print(inspect.stack()[1][3])
+    req_data = request.get_json()
+    print(req_data)
+    json_data = {}
+
+    
+    for req in req_data:
+        if (req in User.c.keys()):
+            json_data[req] = req_data[req]
+    print(json_data) 
+
+
+    if('email' in json_data and 'password' in json_data):
+        # check for User_type
+
+        query = select([User]).where(and_(User.columns.email ==
+                                          json_data['email'], User.columns.password == json_data['password']))
+        ResultProxy = connection.execute(query)
+        ResultSet = ResultProxy.fetchone()
+        if(not ResultSet):
+            print('Unable to find the user for Login')
+            return {'error': 'Unable to find the user for Login'}
+        else:
+            print(list_to_json(ResultSet))
+            return {'success': ' User logs in', 'user_id': list_to_json(ResultSet)}
+
+    print('Cannot login')
+    return {'error': 'Cannot Login'}
+ 
+@user.route('/addOne', methods=["PUT"])
 def addOne():
     """[summary]
     TESTED - FOUND OK
@@ -51,25 +82,23 @@ def addOne():
     print(req_data)
     json_data = {}
 
-    
     for req in req_data:
-        if (req in Images.c.keys()):
+        if (req in User.c.keys()):
             json_data[req] = req_data[req]
     query = (
-        insert(Images).
+        insert(User).
         values(json_data)
     )
     ResultProxy = connection.execute(query)
     if(not ResultProxy):
-        print("Unable to Add Image")
-        return {'error': 'Unable to Add the given image'}
+        print("Unable to Add Users")
+        return {'error': 'Unable to Add the given users'}
     print("Add Succesful")
-    return {'status': "Adding Succesful"}
-
-
+    return {'status': "Adding Succesful"}   
+    
  
 
-@image.route('/viewAll', methods=["GET", "POST"])
+@user.route('/', methods=["GET", "POST"])
 def viewAll():
     """[summary]
     TESTED - FOUND OK
@@ -80,7 +109,7 @@ def viewAll():
         [type]: [description]
     """
     print(inspect.stack()[1][3])
-    query = select([Images])
+    query = select([User])
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchall()
     res = []
@@ -90,7 +119,7 @@ def viewAll():
     return dict(enumerate(res))
 
 
-@image.route('/<id>', methods=["GET", "POST"])
+@user.route('/<id>', methods=["GET", "POST"])
 def viewOne(id):
     """[summary]
     TESTED - FOUND OK
@@ -103,16 +132,16 @@ def viewOne(id):
         [type]: [description]
     """
     print(inspect.stack()[1][3])
-    query = select([Images]).where(Images.columns.id == id)
+    query = select([User]).where(User.columns.id == id)
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchone()
     if(not ResultSet):
-        return {'error': 'Unable to find the given property1'}
+        return {'error': 'Unable to find the given users'}
     print(ResultSet)
     return list_to_json(ResultSet)
 
 
-@image.route('/<id>', methods=["DELETE"])
+@user.route('/<id>', methods=["DELETE"])
 def deleteOne(id):
     """[summary]
     TESTED - FOUND OK
@@ -125,18 +154,19 @@ def deleteOne(id):
         [type]: [description]
     """
     print(inspect.stack()[1][3])
-    query = Images.delete().where(Images.columns.id == id)
+    query = User.delete().where(User.columns.id == id)
     ResultProxy = connection.execute(query)
     if(not ResultProxy):
-        print('Unable to find the given image')
-        return {'error': 'Unable to find the given property2'}
+        print('Unable to find the given user')
+        return {'error': 'Unable to find the given user'}
     print("Delete Succesful for ID: " + str(id))
     return {'status': "Delete Succesful for ID: " + str(id)}
 
 
-@image.route('/<id>', methods=["PUT"])
+@user.route('/<id>', methods=["PUT"])
 def updateOne(id):
-    """[summary]
+    """
+    [summary]
     TESTED - FOUND OK
     Update the Users's Data with a specific id
 
@@ -146,33 +176,32 @@ def updateOne(id):
         Empty string Message
         [type]: [description]
     """
-    # read data from the API call
+# read data from the API call
     print(inspect.stack()[1][3])
     req_data = request.get_json()
     print(req_data)
-    query = select([Images]).where(Images.columns.id == id)
+    query = select([User]).where(User.columns.id == id)
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchone()
     if(not ResultSet):
-        print('Unable to find the given image3')
-        return {'error': 'Unable to Find the given image4'}
+        print('Unable to find the given users')
+    return {'error': 'Unable to Find the given users'}
 
     # Update the URL
     json_data = {}
 
     for req in req_data:
-        if (req in Images.c.keys()):
+        if (req in User.c.keys()):
             json_data[req] = req_data[req]
 
     query = (
-        update(Images).
-        where(Property.columns.id == id).
+        update(User).
+        where(User.columns.id == id).
         values(json_data)
     )
     ResultProxy = connection.execute(query)
     if(not ResultProxy):
-        print("unable to update image5")
-        return {'error': 'Unable to Update the given image6'}
+        print("unable to update users")
+        return {'error': 'Unable to Update the given user'}
     print("Update Succesful")
     return {'status': "Update Succesful"}
-

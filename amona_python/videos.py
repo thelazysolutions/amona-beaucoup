@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, request
-from db.database import Images, connection, select, delete, insert, update, metadata, and_
+from db.database import Videos, connection, select, delete, insert, update, metadata, and_
 import inspect
-image = Blueprint('images', __name__, template_folder='templates')
+video = Blueprint('videos', __name__, template_folder='templates')
 
 
 def list_to_json(list):
@@ -18,21 +18,21 @@ def list_to_json(list):
     """
     print(inspect.stack()[1][3])
     op = {}
-    for (a, b) in zip((Images.c.keys()), list):
-        op[a] = str(b).replace('image.', '')
+    for (a, b) in zip((Videos.c.keys()), list):
+        op[a] = str(b).replace('property.', '')
     return op
 
 
-@image.route('/test/', methods=["GET", "POST"])
+@video.route('/test/', methods=["GET", "POST"])
 def viewTableAll():
     print(inspect.stack()[1][3])
     obj = {}
-    for key in Images.c.keys():
+    for key in Videos.c.keys():
         obj[key] = '1'
     return obj
 
 
-@image.route('/addOne', methods=["PUT"])
+@video.route('/addOne', methods=["PUT"])
 def addOne():
     """[summary]
     TESTED - FOUND OK
@@ -51,25 +51,24 @@ def addOne():
     print(req_data)
     json_data = {}
 
-    
     for req in req_data:
-        if (req in Images.c.keys()):
+        if (req in Videos.c.keys()):
             json_data[req] = req_data[req]
     query = (
-        insert(Images).
+        insert(Videos).
         values(json_data)
     )
     ResultProxy = connection.execute(query)
     if(not ResultProxy):
-        print("Unable to Add Image")
-        return {'error': 'Unable to Add the given image'}
+        print("Unable to Add Property")
+        return {'error': 'Unable to Add the given property'}
     print("Add Succesful")
     return {'status': "Adding Succesful"}
 
 
  
 
-@image.route('/viewAll', methods=["GET", "POST"])
+@video.route('/viewAll', methods=["GET", "POST"])
 def viewAll():
     """[summary]
     TESTED - FOUND OK
@@ -80,7 +79,7 @@ def viewAll():
         [type]: [description]
     """
     print(inspect.stack()[1][3])
-    query = select([Images])
+    query = select([Videos])
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchall()
     res = []
@@ -90,7 +89,7 @@ def viewAll():
     return dict(enumerate(res))
 
 
-@image.route('/<id>', methods=["GET", "POST"])
+@video.route('/<id>', methods=["GET", "POST"])
 def viewOne(id):
     """[summary]
     TESTED - FOUND OK
@@ -103,16 +102,16 @@ def viewOne(id):
         [type]: [description]
     """
     print(inspect.stack()[1][3])
-    query = select([Images]).where(Images.columns.id == id)
+    query = select([Videos]).where(Videos.columns.id == id)
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchone()
     if(not ResultSet):
-        return {'error': 'Unable to find the given property1'}
+        return {'error': 'Unable to find the given property'}
     print(ResultSet)
     return list_to_json(ResultSet)
 
 
-@image.route('/<id>', methods=["DELETE"])
+@video.route('/<id>', methods=["DELETE"])
 def deleteOne(id):
     """[summary]
     TESTED - FOUND OK
@@ -125,16 +124,16 @@ def deleteOne(id):
         [type]: [description]
     """
     print(inspect.stack()[1][3])
-    query = Images.delete().where(Images.columns.id == id)
+    query = Videos.delete().where(Videos.columns.id == id)
     ResultProxy = connection.execute(query)
     if(not ResultProxy):
-        print('Unable to find the given image')
-        return {'error': 'Unable to find the given property2'}
+        print('Unable to find the given videos')
+        return {'error': 'Unable to find the given videos'}
     print("Delete Succesful for ID: " + str(id))
     return {'status': "Delete Succesful for ID: " + str(id)}
 
 
-@image.route('/<id>', methods=["PUT"])
+@video.route('/<id>', methods=["PUT"])
 def updateOne(id):
     """[summary]
     TESTED - FOUND OK
@@ -150,29 +149,29 @@ def updateOne(id):
     print(inspect.stack()[1][3])
     req_data = request.get_json()
     print(req_data)
-    query = select([Images]).where(Images.columns.id == id)
+    query = select([Videos]).where(Videos.columns.id == id)
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchone()
     if(not ResultSet):
-        print('Unable to find the given image3')
-        return {'error': 'Unable to Find the given image4'}
+        print('Unable to find the given property')
+        return {'error': 'Unable to Find the given property'}
 
     # Update the URL
     json_data = {}
 
     for req in req_data:
-        if (req in Images.c.keys()):
+        if (req in Videos.c.keys()):
             json_data[req] = req_data[req]
 
     query = (
-        update(Images).
-        where(Property.columns.id == id).
+        update(Videos).
+        where(Videos.columns.id == id).
         values(json_data)
     )
     ResultProxy = connection.execute(query)
     if(not ResultProxy):
-        print("unable to update image5")
-        return {'error': 'Unable to Update the given image6'}
+        print("unable to update property")
+        return {'error': 'Unable to Update the given property'}
     print("Update Succesful")
     return {'status': "Update Succesful"}
 
