@@ -1,0 +1,184 @@
+<!Doctype html>
+<html>
+<head>
+<title>Property</title>
+<link href="C:/Users/91935/Desktop/property_management/static/css/bootstrap.css" rel="stylesheet" />
+  <script src="C:/Users/91935/Desktop/property_management/static/js/jquery-1.12.4.min.js"></script>
+  <script src="C:/Users/91935/Desktop/property_management/static/js/bootstrap.js"></script>
+ <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+</head>
+<body>
+  <div class="container">
+          <form name="myForm" id="propertyForm">
+          <div class="panel-body">
+           <div class="form-group">
+              <label for="prop_name">
+                 Name 
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="prop_name" 
+                     name='name' />
+            </div>
+            <div class="form-group">
+              <label for="prop_desc">
+                Description
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="prop_desc" 
+                     name='description' />
+
+            </div>
+            <div class="form-group">
+              <label for="prop_Type">
+               Type
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="prop_Type" 
+                     name='type'/>
+            </div>
+            <div class="form-group">
+              <label for="prop_location">
+               Location
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="prop_location" 
+                     name='location' />
+            </div>
+            <div class="form-group">
+              <label for="prop_price">
+               Price
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="prop_price" 
+                     name='price' />
+            </div>
+            <div class="form-group">
+              <label for="prop_details">
+               Details
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="prop_details" 
+                     name='details' />
+            </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-xs-12">
+                <input type="submit" value="Add" id="addButton" />
+              </div>
+              <!-- ADDED EXTRA-->
+              <!--
+              <div class="col-xs-12">
+                <input type="submit" value="Search" id="searchButton" />
+              </div>-->
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+
+    
+    $.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    
+ 
+    
+   $(document).on("submit","#propertyForm",function(e)
+   {
+    e.preventDefault();
+
+    var op=($(this).serializeFormJSON())
+    
+    op['details'] = JSON.stringify({"details": op['details']})
+    alert(JSON.stringify(op))
+    var settings = {
+      "url":"http://localhost:5000/property/addone",
+      "method":"PUT",
+      "timeout":0,
+      "headers":{"Content-Type":"application/json"},
+      "data":JSON.stringify(op)
+    };
+
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('Property added')
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ });
+
+/*
+
+//ADDED EXTRA 
+
+ 
+   $(document).on("click","#searchButton",function(e)
+   {
+    e.preventDefault();
+
+    var op=$('#prop_details').val()
+    
+    op = JSON.stringify({"details": op})
+    alert(JSON.stringify(op))
+    var settings = {
+      "url":"http://localhost:5000/property/search",
+      "method":"POST",
+      "crossDomain":true,
+      "timeout":0,
+     "headers": {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'},
+      "data":JSON.stringify(op)
+    };
+
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('Property Search')
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ }); */
+
+
+
+  </script>
+</body>
+</html>

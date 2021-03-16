@@ -1,0 +1,80 @@
+<!Doctype html>
+<html>
+<head>
+<title>Property</title>
+<link href="C:/Users/91935/Desktop/property_management/static/css/bootstrap.css" rel="stylesheet" />
+  <script src="C:/Users/91935/Desktop/property_management/static/js/jquery-1.12.4.min.js"></script>
+  <script src="C:/Users/91935/Desktop/property_management/static/js/bootstrap.js"></script>
+ <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+</head>
+<body>
+  <div class="container">
+          <form name="myForm" id="propertyForm">
+          <div class="panel-body">
+            <div class="form-group">
+              <label for="prop_details">
+               Details
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="prop_details" 
+                     name='details' />
+            </div>
+          <div class="panel-footer">
+            <div class="row">
+              <!-- ADDED EXTRA-->
+
+              <div class="col-xs-12">
+                <input type="submit" value="Search" id="searchButton" />
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+      <script type="text/javascript">
+
+      $(document).on("click","#searchButton",function(e)
+       {
+        e.preventDefault();
+
+        var op=$('#prop_details').val()
+        
+        op = JSON.stringify({"details": op})
+        alert(JSON.stringify(op))
+        var settings = {
+          "url":"http://localhost:5000/property/search",
+          "method":"GET",
+          "crossDomain":true,
+          "timeout":0,
+          "headers":{
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers":"*",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Access-Control-Request-Headers": "Content-Type, x-requested-with"
+    },
+          "data":JSON.stringify(op)
+        };
+
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('Property Search')
+      print(data)
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ });
+
+
+
+  </script>
+</body>
+</html>

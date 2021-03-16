@@ -1,0 +1,105 @@
+<!Doctype html>
+<html>
+<head>
+<title>Client</title>
+<link href="C:/Users/91935/Desktop/property_management/static/css/bootstrap.css" rel="stylesheet" />
+  <script src="C:/Users/91935/Desktop/property_management/static/js/jquery-1.12.4.min.js"></script>
+  <script src="C:/Users/91935/Desktop/property_management/static/js/bootstrap.js"></script>
+</head>
+<body>
+  <div class="container">
+          <form name="myform" id="clientForm">
+          <div class="panel-body">
+           <div class="form-group">
+              <label for="clientname">
+                 Name 
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="clientname" 
+                     name='name' />
+            </div>
+            <div class="form-group">
+              <label for="logo_url">
+               Logo_URL
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="logo_url" 
+                     name='logo_url'/>
+            </div>
+            <div class="form-group">
+              <label for="priority">
+               Priority
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="priority" 
+                     name='priority' />
+            </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-xs-12">
+                <input type="submit" value="Add Client" id="addClient" />
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    $.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    
+ 
+    
+   $(document).on("submit","#clientForm",function(e)
+   {
+    e.preventDefault();
+
+    var op=JSON.stringify($(this).serializeFormJSON())
+    alert(op)
+    var settings = {
+      "url":"http://localhost:5000/client/addOne",
+      "method":"PUT",
+      "timeout":0,
+      "headers":{"Content-Type":"application/json"},
+      "data":op
+    };
+
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('Client added')
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ });
+ 
+
+  
+  </script>
+</body>
+</html>

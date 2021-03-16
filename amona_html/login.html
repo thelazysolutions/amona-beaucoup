@@ -1,0 +1,158 @@
+<!Doctype html>
+<html>
+<head>
+<title>Login</title>
+<link href="C:/Users/91935/Desktop/property_management/static/css/bootstrap.css" rel="stylesheet" />
+  <script src="C:/Users/91935/Desktop/property_management/static/js/jquery-1.12.4.min.js"></script>
+  <script src="C:/Users/91935/Desktop/property_management/static/js/bootstrap.js"></script>
+</head>
+<body>
+  <div class="page-header">
+        
+        <div class="container">
+            <div class="col-md-4 content-center">
+                <div class="card card-login card-plain">
+                    <form class="form"  id="loginForm" method="POST" action="property_details.html">
+                        <div class="header header-primary text-center">
+                            User Login
+                        </div><br>
+                        <div class="content">
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </span>
+                                <input type="text" id="username" class="form-control" placeholder="Username" name="email" required>
+                            </div>
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons ui-1_lock-circle-open"></i>
+                                </span>
+                                <input type="password" id="password" placeholder="Password" class="form-control" name="password" required />
+                            </div>
+                        </div>
+                        <div class="footer text-center">
+                            <button type="submit" class="bbtn btn-primary btn-round btn-lg btn-block"  id="buttonSubmit">Login</button>
+                        </div>
+                        <div class="pull-right">
+                            <h6>
+                                <a href="" class="link">Forgot Password?</a>
+                            </h6>
+                        </div>
+                    </form>
+                    <br><br>
+              </div>
+            </div>
+          </div>
+       
+  <script type="text/javascript">
+    /*
+    $.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            console.log(a)
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    */
+    
+   $(document).on("submit","#loginForm",function(e)
+   {
+      e.preventDefault();
+
+
+      var username = $('#username').val();
+      var password = $('#password').val();
+      //alert(username)
+      //alert(password)
+
+      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/i;
+
+      if (username!="" && password != "") 
+      {
+        if (!regex.test(username)) 
+        {
+          alert("Invalid")
+          $('#username').html("Invalid username");
+        } 
+        else{ 
+          $.ajax({
+            method:"POST",
+            url:'http://localhost:5000/user/login',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({'email': username, 'password': password}),
+            dataType: "json",
+            success: function(data) {
+              alert("Logged in")
+              $('#msg').html("You are logged in");
+            },
+            statusCode:{
+              400:function(){
+                alert("Unsuccessful")
+                $('#msg').html("Bad Request - Invalid credentials");
+              }
+            },
+            error:function(err){
+              console.log(err);
+            }
+          });
+        }
+      }
+      else {
+       $('#msg').html("Invalid username and password");
+      }
+  });
+    /*
+    var op=JSON.stringify($(this).serializeFormJSON())
+    alert(op)
+    var settings = {
+      "url":"http://localhost:5000/user/login",
+      "method":"PUT",
+      "timeout":0,
+      "headers":{"Content-Type":"application/json"},
+      "data":op
+    };*/
+/*
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('Login success')
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ }); 
+
+  /*$.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        }; */
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!Doctype html>
+<html>
+<head>
+<title>Property Details</title>
+<link href="C:/Users/91935/Desktop/property_management/static/css/bootstrap.css" rel="stylesheet" />
+  <script src="C:/Users/91935/Desktop/property_management/static/js/jquery-1.12.4.min.js"></script>
+  <script src="C:/Users/91935/Desktop/property_management/static/js/bootstrap.js"></script>
+ <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+</head>
+<body>
+  <div class="container-fluid">
+          <!--<form name="myForm" id="propertyForm">-->
+          <div class="row">
+            <div class="col-xs-12 col-md-4"></div>
+            <div class="col-xs-12 col-md-4 text-center">
+                <div class="form-group">
+                    <label>Property Name: </label>
+                    <input type="text" id="propertyName" class="text-center" name="propertyname" value="" size="3">
+                    <button type="button" class="btn btn-success" id="btnOk">Get Property  Details</button>
+                </div>
+            </div><!-- .col -->
+            <div class="col-xs-12 col-md-4"></div>
+        </div><!-- .row -->
+        <div class="row">
+            <div class="col-xs-12 col-md-4"></div>
+            <div class="col-xs-12 col-md-4">
+                <table class="table">
+                    <tbody>
+                        <tr><th>Name</th><td id="name"></td></tr>
+                        <tr><th>Description</th><td id="description"></td></tr>
+                        <tr><th>Type</th><td id="type"></td></tr>
+                        <tr><th>Location</th><td id="location"></td></tr>
+                        <tr><th>Price</th><td id="price"></td></tr>
+                        <tr><th>Details</th><td id="details"></td></tr>
+                        <tr><th>Approved?</th><td id="approved"></td></tr>
+                    </tbody>
+                </table>
+                <h6 class="msg text-danger text-center"></h6>
+            </div><!-- .col -->
+            <div class="col-xs-12 col-md-4"></div>
+        </div><!-- .row -->
+    </div>
+
+  <script type="text/javascript">
+function a(propertyname){
+console.log('11');
+  $.ajax({
+
+            url:'http://localhost:5000/property/viewone',
+            type:'POST',
+            headers: {"Content-Type": "application/json"},
+            data: JSON.stringify({'name': propertyname}),
+            dataType:'json',
+            success: function(data) {
+              console.log('12');
+              console.log(data);
+              if (!data.error) {
+                    console.log(propertyname+"3")
+            
+                $(".msg").html("");
+                $("table").show();
+
+                $("#name").html(data.name);
+                $("#description").html(data.description);
+                $("#type").html(data.type);
+                $("#location").html(data.location);
+                $("#price").html(data.price);
+                $("#details").html(data.details);
+                $("#approved").html(data.approved);
+              } else {
+                $("table").hide();
+                $(".msg").html("No Record Found");
+                console.log(propertyname+"5")
+
+              }
+            },error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                } 
+          });
+
+}
+    
+      $('#btnOk').click(function() 
+      {
+        var propertyname = $("#propertyName").val();
+        console.log(propertyname+"1");
+
+        if(propertyname != '') {
+          console.log(propertyname+"2");
+         /* $.ajax({
+
+            url:'http://localhost:5000/property/viewone',
+            method:'POST',
+            headers: {"Content-Type": "application/json"},
+            data:JSON.stringify({'name': propertyname}),
+            success: function(data) {
+              console.log('12')
+
+              if (!data.error) {
+                    console.log(propertyname+"3")
+
+                $(".msg").html("");
+                $("table").show();
+                $("#name").html(data.property && data.property.name);
+                $("#description").html(data.property && data.property.description);
+                $("#type").html(data.property && data.property.type);
+                $("#location").html(data.property && data.property.location);
+                $("#price").html(data.property && data.property.price);
+                $("#details").html(data.property && data.property.details);
+                $("#approved").html(data.property && data.property.approved);
+              } else {
+                $("table").hide();
+                $(".msg").html("No Record Found");
+                console.log(propertyname+"5")
+
+              }
+            }
+          });*/
+          a(propertyname);
+          //console.log(propertyname+"4")
+        }
+      });
+    
+
+
+
+
+
+
+
+
+    /*
+    $.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    
+ 
+    
+   $(document).on("submit","#propertyForm",function(e)
+   {
+    e.preventDefault();
+
+    var op=($(this).serializeFormJSON())
+    
+    op['details'] = JSON.stringify({"details": op['details']})
+    alert(JSON.stringify(op))
+    var settings = {
+      "url":"http://localhost:5000/property/addone",
+      "method":"PUT",
+      "timeout":0,
+      "headers":{"Content-Type":"application/json"},
+      "data":JSON.stringify(op)
+    };
+
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('Property added')
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ });*/
+
+/*
+
+//ADDED EXTRA 
+
+ 
+   $(document).on("click","#searchButton",function(e)
+   {
+    e.preventDefault();
+
+    var op=$('#prop_details').val()
+    
+    op = JSON.stringify({"details": op})
+    alert(JSON.stringify(op))
+    var settings = {
+      "url":"http://localhost:5000/property/search",
+      "method":"POST",
+      "crossDomain":true,
+      "timeout":0,
+     "headers": {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'},
+      "data":JSON.stringify(op)
+    };
+
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('Property Search')
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ }); */
+
+
+
+  </script>
+</body>
+</html>

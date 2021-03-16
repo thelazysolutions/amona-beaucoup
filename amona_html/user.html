@@ -1,0 +1,132 @@
+<!Doctype html>
+<html>
+<head>
+<title>Register</title>
+<link href="C:/Users/91935/Desktop/property_management/static/css/bootstrap.css" rel="stylesheet" />
+  <script src="C:/Users/91935/Desktop/property_management/static/js/jquery-1.12.4.min.js"></script>
+  <script src="C:/Users/91935/Desktop/property_management/static/js/bootstrap.js"></script>
+</head>
+<body>
+  <div class="container">
+          <form name="my-form" id="pp" action="client.html">
+          <div class="panel-body">
+           <div class="form-group">
+              <label for="username">
+                 Name 
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="username" 
+                     name="name" 
+                     required />
+            </div>
+            <div class="form-group" hidden="label">
+              <label for="usertype">
+                Is Admin?
+              </label>
+              <input type="radio" name="is_admin" required value="1"> Yes
+              <input type="radio" name="is_admin" required value="0">No
+
+            </div>
+            <div class="form-group">
+              <label for="useremail">
+               Email
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="useremail" 
+                     name='email' 
+                     required/>
+            </div>
+            <div class="form-group">
+              <label for="userpass">
+               Password
+              </label>
+              <input type="password"
+                     class="form-control"
+                     id="userpass" 
+                     name='password' 
+                     required/>
+            </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-xs-12">
+                <input type="submit" value="Register" id="registerButton" />
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    $.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            console.log(a)
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    
+    
+   $(document).on("submit","#pp",function(e)
+   {
+    e.preventDefault();
+
+    var op=JSON.stringify($(this).serializeFormJSON())
+    alert(op)
+    var settings = {
+      "url":"http://localhost:5000/user/addOne",
+      "method":"PUT",
+      "timeout":0,
+      "headers":{"Content-Type":"application/json"},
+      "data":op
+    };
+
+    $.ajax(settings).done(function(data){
+      console.log(data)
+      if(data==={})
+      {
+        console.log('Empty')
+      }
+      
+      alert('User added')
+    }).fail(function(jQxhr,textStatus,errorThrown)
+    {
+      console.log(textStatus);
+      console.log(errorThrown);
+    });
+ });
+
+  /*$.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        }; */
+
+
+
+  </script>
+</body>
+</html>
